@@ -1,6 +1,35 @@
 #include <stdio.h>
 #include <string.h>
 
+
+void executarMovimentoSimplesRecursivo(int passosTotal, char* direcao, int passoAtual) {
+    
+
+    if (passoAtual > passosTotal) {
+        return; 
+    }
+
+    printf("Moveu-se para a %s pela %d vez\n", direcao, passoAtual);
+
+
+    executarMovimentoSimplesRecursivo(passosTotal, direcao, passoAtual + 1);
+}
+
+
+void executarMovimentoBispoRecursivo(int passosTotal, char* vertical, char* lateral, int passoAtual) {
+    
+    if (passoAtual > passosTotal) {
+        return;
+    }
+
+    printf("Bispo moveu-se para %s e para %s pela %d vez\n", vertical, lateral, passoAtual);
+
+ 
+    executarMovimentoBispoRecursivo(passosTotal, vertical, lateral, passoAtual + 1);
+}
+
+
+
 void moverTorre()
 {
     int movimentosTorre;
@@ -12,15 +41,13 @@ void moverTorre()
     printf("Por favor digite a direçao que voce deseja andar ('Direita, esquerda, cima, baixo')?\n");
     scanf("%s", direcao);
 
-    for (int i = 0; i < movimentosTorre; i++)
-    {
-        printf("Torre moveu-se para a %s pela %d vez \n", direcao, i + 1);
-    }
+   
+    printf("--- Movimento Recursivo da Torre ---\n");
+    executarMovimentoSimplesRecursivo(movimentosTorre, direcao, 1);
 }
 
 void moverBispo()
 {
-
     int movimentosBispo;
 
     printf("Por favor, digite um numero de campos que voce deseja andar com o Bispo: \n");
@@ -35,18 +62,13 @@ void moverBispo()
     printf("Digite uma vertical para o bispo andar(Cima, Baixo):");
     scanf("%s", verticalEscolhida);
 
-    int i = 0;
-
-    while (i < movimentosBispo)
-    {
-        printf("Bispo moveu-se para %s e para %s pela %d vez\n", verticalEscolhida, lateralEscolhida, i + 1);
-        i++;
-    }
+   
+    printf("--- Movimento Recursivo do Bispo ---\n");
+    executarMovimentoBispoRecursivo(movimentosBispo, verticalEscolhida, lateralEscolhida, 1);
 }
 
 void moverRainha()
 {
-
     int movimentosRainha;
 
     printf("Por favor, digite um numero de campos que voce deseja andar com a Rainha: \n");
@@ -57,34 +79,29 @@ void moverRainha()
     printf("Por favor digite a direçao que voce deseja andar ('Direita, esquerda, cima, baixo')?\n");
     scanf("%s", direcao_escolhida);
 
-    int i = 0;
-
-    do
-    {
-        printf("Rainha moveu-se para a %s pela %d\n", direcao_escolhida, i + 1);
-        i++;
-    } while (i < movimentosRainha);
+   
+    printf("--- Movimento Recursivo da Rainha ---\n");
+    executarMovimentoSimplesRecursivo(movimentosRainha, direcao_escolhida, 1);
 }
+
 
 void moverCavalo()
 {
-
     int passoLongo = 2;
     char direcaoLonga[50];
     int passosCurto = 1;
     char direcaoCurta[50];
 
-    printf("Digite qual direcao  o cavalo dara o passo longo(Cima, Baixo, Direita ou Esquerda):\n");
+    printf("Digite qual direcao o cavalo dara o passo longo(Cima, Baixo, Direita ou Esquerda):\n");
     scanf("%s", direcaoLonga);
 
-    printf("Digite qual direcao  o cavalo dara o passo curta(Cima, Baixo, Direita ou Esquerda):\n");
+    printf("Digite qual direcao o cavalo dara o passo curta(Cima, Baixo, Direita ou Esquerda):\n");
     scanf("%s", direcaoCurta);
 
     if (strcmp(direcaoLonga, direcaoCurta) == 0)
     {
         printf("Erro: O passo longo e o passo curto nao podem ser na mesma direcao!\n");
         printf("O movimento do cavalo foi cancelado.\n");
-
         return;
     }
 
@@ -92,7 +109,7 @@ void moverCavalo()
                          (strcmp(direcaoLonga, "baixo") == 0 && strcmp(direcaoCurta, "cima") == 0);
 
     int opostoHorizontal = (strcmp(direcaoLonga, "esquerda") == 0 && strcmp(direcaoCurta, "direita") == 0) ||
-                           (strcmp(direcaoLonga, "direita") == 0 && strcmp(direcaoCurta, "esquerda") == 0);
+                             (strcmp(direcaoLonga, "direita") == 0 && strcmp(direcaoCurta, "esquerda") == 0);
 
     if (opostoVertical || opostoHorizontal)
     {
@@ -108,7 +125,6 @@ void moverCavalo()
         if (i == (passoLongo - 1))
         {
             int j = 0;
-
             while (j < passosCurto)
             {
                 printf("Cavalo andou para %s\n", direcaoCurta);
@@ -116,13 +132,12 @@ void moverCavalo()
             }
         }
     }
-    printf("******Cavalo terminou sua movimentacao******");
+    printf("******Cavalo terminou sua movimentacao******\n");
 }
-int main(
 
+int main(
 )
 {
-
     int pecaEscolhida;
 
     printf("Escolha uma peca para mexer:\n");
@@ -148,6 +163,7 @@ int main(
         moverCavalo();
         break;
     default:
+        printf("Opcao invalida!\n");
         break;
     }
 
